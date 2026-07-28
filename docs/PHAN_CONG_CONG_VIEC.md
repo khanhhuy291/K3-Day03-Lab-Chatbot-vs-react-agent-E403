@@ -12,7 +12,7 @@
 | **Role 2: Tool Engineer**               | `src/tools.py`           | Định nghĩa các công cụ (Tools) cho Agent    | Phạm Tiến Anh             - 2A202601549                                            | `________________` |
 | **Role 3: Prompt Engineer**             | `src/prompts.py`         | Viết ReAct System Prompt & phanh Guardrails       | Ngô Quang Dũng - 2A202601819                                                        | `________________` |
 | **Role 4: Core Developer / Integrator** | `src/app.py`             | **Đầu mối kéo code/file của nhóm (`git pull`), Vibe Code lắp ráp thành App hoàn chỉnh** |  Nguyễn Bá Khánh Huy - 2A202601591 |
-| **Role 5: Observability**               | `docs/trace_eval.md`     | Lập bảng Scoring Matrix & Soi nhật ký Trace Log                                                        | Đinh Xuân Huy - 2A202601894 | Đỗ Đức Trường - 2A202601499 |
+| **Role 5: Observability**               | `docs/trace_eval.md`     | Lập bảng Scoring Matrix & Soi nhật ký Trace Log   | 5A:Đinh Xuân Huy - 2A202601894 và 5B:Đỗ Đức Trường - 2A202601499 
 
 *Note: Nếu nhóm 6 người, Role 5 tách thành 5A (Trace Analyst) và 5B (Flowchart Architect).*
 
