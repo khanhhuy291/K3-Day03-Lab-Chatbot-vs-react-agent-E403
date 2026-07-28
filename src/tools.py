@@ -7,6 +7,7 @@ và điều khoản với chủ nhà trước khi đặt cọc.
 
 from __future__ import annotations
 
+import csv
 import json
 from datetime import date as Date
 from datetime import datetime
@@ -14,18 +15,55 @@ from pathlib import Path
 from typing import Any
 
 
-DATA_PATH = Path(__file__).resolve().parents[1] / "config" / "rental_listings.json"
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 BOOKINGS_PATH = Path(__file__).resolve().parents[1] / "config" / "viewing_bookings.json"
-def _load_listings() -> list[dict[str, Any]]:
-    """Đọc seed data và trả về danh sách tin đang trống."""
-    try:
-        with DATA_PATH.open(encoding="utf-8") as file:
-            listings = json.load(file)
-    except (OSError, json.JSONDecodeError) as error:
-        raise RuntimeError(f"Không thể đọc dữ liệu căn hộ: {error}") from error
+DATA_FILES = [
+    ("hn.csv", "Hà Nội"),
+    ("hcm.csv", "Hồ Chí Minh"),
+    ("dn.csv", "Đà Nẵng"),
+]
 
-    if not isinstance(listings, list):
-        raise RuntimeError("Dữ liệu căn hộ phải là một danh sách JSON.")
+
+def _load_listings() -> list[dict[str, Any]]:
+    """Đọc dữ liệu phòng trọ từ các file CSV trong thư mục data/."""
+    listings: list[dict[str, Any]] = []
+
+    for filename, city_name in DATA_FILES:
+        csv_path = DATA_DIR / filename
+        if not csv_path.exists():
+            continue
+
+        with csv_path.open(encoding="utf-8-sig", newline="") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                title = (row.get("title") or "").strip()
+                address = (row.get("address") or "").strip()
+                if not title or not address:
+                    continue
+
+                try:
+                    price = float((row.get("price") or "0").replace(",", "."))
+                except (TypeError, ValueError):
+                    continue
+
+                acreage = (row.get("acreage") or "").strip()
+                if price <= 0 or not acreage:
+                    continue
+
+                listings.append(
+                    {
+                        "title": title,
+                        "price": price,
+                        "published": row.get("published") or "",
+                        "acreage": acreage,
+                        "address": address,
+                        "city": city_name,
+                    }
+                )
+
+    if not listings:
+        raise RuntimeError("Không thể đọc dữ liệu phòng trọ từ thư mục data/.")
+
     return listings
 
 
@@ -100,7 +138,7 @@ def search_apartments(
     listings = _load_listings()
     matched = []
     for index, listing in enumerate(listings, start=1):
-        searchable_text = _normalise(f"{listing['title']} {listing['address']}")
+        searchable_text = _normalise(f"{listing['title']} {listing['address']} {listing.get('city', '')}")
         price_vnd = listing["price"] * 1_000_000
         if (
             query_location in searchable_text
@@ -109,14 +147,17 @@ def search_apartments(
         ):
             matched.append(_public_listing(listing, index))
 
+    top_matches = matched[:10]
+
     return json.dumps(
         {
             "location": location,
             "max_price_million_vnd": max_price / 1_000_000,
             "required_amenities": amenities or [],
             "count": len(matched),
-            "listings": matched,
-            "notice": "Dữ liệu demo; hãy xác minh tình trạng thực tế trước khi đặt cọc.",
+            "shown": len(top_matches),
+            "listings": top_matches,
+            "notice": "Dữ liệu lấy từ các file CSV trong thư mục data/; hãy xác minh tình trạng thực tế trước khi đặt cọc.",
         },
         ensure_ascii=False,
         indent=2,

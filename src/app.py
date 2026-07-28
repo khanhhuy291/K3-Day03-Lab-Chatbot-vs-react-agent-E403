@@ -24,7 +24,8 @@ from tools import AVAILABLE_TOOLS, search_apartments, book_viewing
 from prompts import CHATBOT_BASELINE_PROMPT, REACT_SYSTEM_PROMPT, MAX_ITERATIONS
 from providers import get_llm_provider
 
-load_dotenv()
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 
 def load_test_cases():
     """Đọc bộ test cases từ config/test_cases.json của Role 1"""
@@ -123,8 +124,13 @@ if __name__ == "__main__":
     
     # Khởi tạo Multi-Provider LLM Adapter (Đọc từ biến môi trường LLM_PROVIDER)
     provider = get_llm_provider()
-    model_name = getattr(provider, "model_name", "Offline Mock Mode")
+    model_name = getattr(provider, "model_name", "openai")
     print(f"🔌 LLM Provider đang hoạt động: {provider.__class__.__name__} (Model: {model_name})")
+    print(f"🔎 Env source: {os.path.join(BASE_DIR, '.env')}")
+    if os.getenv("OPENAI_API_KEY"):
+        print("✅ Phát hiện OPENAI_API_KEY trong môi trường")
+    else:
+        print("⚠️ Chưa phát hiện OPENAI_API_KEY trong môi trường")
     
     tests = load_test_cases()
     print(f"✅ Đã tải thành công {len(tests)} Test Cases từ config/test_cases.json\n")

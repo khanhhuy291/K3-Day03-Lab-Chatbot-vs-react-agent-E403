@@ -9,6 +9,8 @@ import json
 import requests
 from dotenv import load_dotenv
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Đảm bảo in ra Tiếng Việt và Emojis không bị lỗi trên Windows Console
 if sys.stdout.encoding != 'utf-8':
     try:
@@ -16,7 +18,7 @@ if sys.stdout.encoding != 'utf-8':
     except Exception:
         pass
 
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 
 class BaseLLMProvider:
     """Interface cơ sở cho tất cả các LLM Provider"""
@@ -141,9 +143,9 @@ class MockProvider(BaseLLMProvider):
 
 
 def get_llm_provider(provider_name: str = None) -> BaseLLMProvider:
-    """Factory function tự chọn Provider từ biến môi trường LLM_PROVIDER"""
-    name = (provider_name or os.getenv("LLM_PROVIDER") or "mock").lower().strip()
-    
+    """Factory function tự chọn Provider từ biến môi trường LLM_PROVIDER hoặc API key sẵn có."""
+    name = (provider_name or os.getenv("LLM_PROVIDER") or "").lower().strip()
+
     if name == "gemini":
         return GeminiProvider()
     elif name == "openai":
@@ -152,8 +154,17 @@ def get_llm_provider(provider_name: str = None) -> BaseLLMProvider:
         return AnthropicProvider()
     elif name == "openrouter":
         return OpenRouterProvider()
-    else:
-        return MockProvider()
+
+    if os.getenv("GEMINI_API_KEY"):
+        return GeminiProvider()
+    if os.getenv("OPENAI_API_KEY"):
+        return OpenAIProvider()
+    if os.getenv("ANTHROPIC_API_KEY"):
+        return AnthropicProvider()
+    if os.getenv("OPENROUTER_API_KEY"):
+        return OpenRouterProvider()
+
+    return MockProvider()
 
 
 if __name__ == "__main__":
