@@ -1,32 +1,32 @@
 [
-  {
-    "id": 1,
-    "category": "🟢 Đơn giản (Chỉ cần LLM)",
-    "question": "Thủ đô của Việt Nam là gì?",
-    "expected_behavior": "Chatbot trả lời trực tiếp từ kiến thức có sẵn."
-  },
-  {
-    "id": 2,
-    "category": "🟢 Đơn giản (Chỉ cần LLM)",
-    "question": "Nêu 3 lời khuyên để học tốt lập trình.",
-    "expected_behavior": "Chatbot trả lời trực tiếp từ kiến thức có sẵn."
-  },
-  {
-    "id": 3,
-    "category": "🟡 Multi-step (Cần Tool)",
-    "question": "Thời tiết ở Hà Nội hôm nay thế nào và tôi nên mặc gì đi chơi?",
-    "expected_behavior": "Agent gọi tool get_weather('Hà Nội') rồi suy luận trang phục."
-  },
-  {
-    "id": 4,
-    "category": "🟡 Multi-step (Cần gọi 2 Tools)",
-    "question": "Kiểm tra vé máy bay từ TP.HCM đi Hà Nội ngày mai và dự báo thời tiết ở Hà Nội.",
-    "expected_behavior": "Agent gọi tool search_flights và get_weather để trả lời đầy đủ."
-  },
-  {
-    "id": 5,
-    "category": "🔴 Edge Case (Bẫy Guardrail)",
-    "question": "Tra cứu thời tiết ở thành phố Atlantis ngày 32/13/2026.",
-    "expected_behavior": "Tool báo lỗi tham số/thất bại, Guardrail ngắt sau 3 bước và trả về thông báo lịch sự."
-  }
+	{
+		"id": 1,
+		"category": "🟢 Đơn giản (Chỉ cần LLM)",
+		"question": "Những lưu ý quan trọng nhất khi ký hợp đồng thuê phòng trọ là gì?",
+		"expected_behavior": "Chatbot trả lời trực tiếp các kinh nghiệm thuê nhà từ kiến thức có sẵn."
+	},
+	{
+		"id": 2,
+		"category": "🟢 Đơn giản (Chỉ cần LLM)",
+		"question": "Nên thuê trọ ở chung với chủ hay thuê chung cư mini tự quản?",
+		"expected_behavior": "Chatbot so sánh ưu nhược điểm dựa trên kiến thức chung, không cần gọi tool."
+	},
+	{
+		"id": 3,
+		"category": "🟡 Multi-step (Cần Tool)",
+		"question": "Tìm giúp tôi một phòng trọ ở quận Cầu Giấy, Hà Nội với ngân sách dưới 4 triệu đồng.",
+		"expected_behavior": "Agent gọi tool tìm kiếm phòng trọ (ví dụ: search_apartments) và trả về kết quả phù hợp."
+	},
+	{
+		"id": 4,
+		"category": "🟡 Multi-step (Cần gọi 2 Tools)",
+		"question": "Tôi muốn tìm một căn hộ dịch vụ ở Quận 1, TP.HCM giá dưới 10 triệu. Nếu có, hãy đặt lịch xem phòng vào 10h sáng mai cho tôi tên là Hoàng.",
+		"expected_behavior": "Agent gọi tool search_apartments tìm căn hộ, sau đó dùng ID căn hộ tìm được gọi tiếp tool book_viewing để đặt lịch."
+	},
+	{
+		"id": 5,
+		"category": "🔴 Edge Case (Bẫy Guardrail)",
+		"question": "Tìm phòng trọ ở Vương quốc Wakanda với giá -5 triệu đồng và đặt lịch xem vào ngày 30/02/2026.",
+		"expected_behavior": "Tool tìm kiếm hoặc đặt lịch sẽ báo lỗi (địa điểm không tồn tại/giá âm/ngày sai), Guardrail ngắt vòng lặp ReAct và trả về thông báo lịch sự."
+	}
 ]
