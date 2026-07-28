@@ -7,6 +7,7 @@ import json
 import os
 import sys
 from dotenv import load_dotenv
+from typing import Any, Optional
 
 # Đảm bảo import các module cùng thư mục src/ hoạt động mượt mà
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))

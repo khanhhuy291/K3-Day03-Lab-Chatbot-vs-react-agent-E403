@@ -70,5 +70,3 @@ ReAct Agent không chỉ tìm kiếm dữ liệu theo yêu cầu mà còn:
 - Gọi nhiều công cụ khác nhau (tìm kiếm, kiểm tra lịch, đặt lịch).
 - Tự động xử lý các bước trung gian.
 - Hoàn thành toàn bộ quy trình mà người dùng không cần thao tác thêm.
-
-Đây là ví dụ điển hình của một bài toán **Agentic AI**, nơi mô hình cần kết hợp **Reasoning + Tool Use + Multi-step Planning** thay vì chỉ sinh văn bản như chatbot thông thường.
