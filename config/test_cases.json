@@ -13,50 +13,50 @@
 	},
 	{
 		"id": 3,
-		"category": "🟡 Multi-step (Cần Tool - Trích xuất 1 tham số)",
-		"question": "Tìm giúp tôi một phòng trọ ở quận Cầu Giấy, Hà Nội với ngân sách dưới 4 triệu đồng.",
-		"expected_behavior": "Agent gọi tool tìm kiếm phòng trọ (search_apartments) và trả về kết quả phù hợp."
+		"category": "🟡 Multi-step (Cần Tool - Trích xuất địa điểm & giá)",
+		"question": "Tìm giúp tôi một phòng trọ ở Đống Đa, Hà Nội với ngân sách dưới 2.5 triệu đồng.",
+		"expected_behavior": "Agent gọi tool tìm kiếm phòng trọ (search_apartments) lọc theo giá và địa điểm, trả về kết quả."
 	},
 	{
 		"id": 4,
-		"category": "🟡 Multi-step (Cần Tool - Trích xuất nhiều tham số)",
-		"question": "Tôi muốn thuê chung cư ở thành phố Thủ Đức, giá dưới 6 triệu, ưu tiên có sẵn máy lạnh và ban công.",
-		"expected_behavior": "Agent gọi tool tìm kiếm với nhiều điều kiện lọc và tổng hợp các căn hộ thỏa mãn tiện ích."
+		"category": "🟡 Multi-step (Cần Tool - Trích xuất diện tích & khu vực)",
+		"question": "Tôi muốn thuê phòng ở Quận 1, Hồ Chí Minh, giá dưới 3.5 triệu và diện tích phải rộng hơn 30m2.",
+		"expected_behavior": "Agent gọi tool tìm kiếm, lọc theo cột acreage > 30 và price < 3.5 tại Hồ Chí Minh."
 	},
 	{
 		"id": 5,
 		"category": "🟡 Multi-step (Cần gọi 2 Tools liên tiếp)",
-		"question": "Tôi muốn tìm một căn hộ dịch vụ ở Quận 1, TP.HCM giá dưới 10 triệu. Nếu có, hãy đặt lịch xem phòng vào 10h sáng mai cho tôi tên là Hoàng.",
-		"expected_behavior": "Agent gọi tool search_apartments tìm căn hộ, sau đó dùng ID căn hộ tìm được gọi tiếp tool book_viewing để đặt lịch."
+		"question": "Tìm cho tôi một phòng trọ tại Hải Châu, Đà Nẵng giá dưới 2 triệu. Nếu có, hãy đặt lịch xem phòng vào 9h sáng mai cho tôi tên là Hoàng.",
+		"expected_behavior": "Agent gọi tool search_apartments tìm căn hộ, sau đó lấy thông tin tìm được để gọi tiếp tool book_viewing đặt lịch."
 	},
 	{
 		"id": 6,
 		"category": "🟡 Multi-step (Gọi Tool 2 lần để so sánh)",
-		"question": "So sánh giúp tôi xem hiện tại phòng trọ ở quận Bình Thạnh hay quận Gò Vấp (TP.HCM) đang rẻ hơn?",
-		"expected_behavior": "Agent gọi tool search_apartments 2 lần cho 2 quận khác nhau, sau đó so sánh mức giá và đưa ra kết luận."
+		"question": "So sánh giúp tôi xem giá phòng trọ khoảng 30m2 ở Ba Đình (Hà Nội) hay Quận 1 (Hồ Chí Minh) đang đắt hơn?",
+		"expected_behavior": "Agent gọi tool search_apartments 2 lần cho 2 khu vực, sau đó so sánh mức giá và đưa ra kết luận."
 	},
 	{
 		"id": 7,
 		"category": "🔴 Edge Case (Không tìm thấy kết quả - Chống ảo giác)",
-		"question": "Tìm cho tôi một căn biệt thự ở mặt tiền phố đi bộ Nguyễn Huệ với giá dưới 500 nghìn đồng/tháng.",
-		"expected_behavior": "Tool tìm kiếm trả về danh sách rỗng. Agent nhận ra không có kết quả thực tế và thông báo lịch sự thay vì bịa ra căn hộ ảo."
+		"question": "Tìm cho tôi một căn phòng trọ rộng 200m2 ở Cầu Giấy (Hà Nội) với giá dưới 500 nghìn đồng/tháng.",
+		"expected_behavior": "Tool tìm kiếm trả về danh sách rỗng. Agent nhận ra không có kết quả thực tế và thông báo thay vì bịa ra phòng ảo."
 	},
 	{
 		"id": 8,
 		"category": "🔴 Edge Case (Bẫy tham số vô lý)",
 		"question": "Tìm phòng trọ ở Vương quốc Wakanda với giá -5 triệu đồng và đặt lịch xem vào ngày 30/02/2026.",
-		"expected_behavior": "Tool báo lỗi tham số (địa điểm ảo/giá âm). Guardrail nhận diện lỗi hoặc ngắt vòng lặp ReAct, Agent trả về thông báo từ chối hợp lý."
+		"expected_behavior": "Tool báo lỗi tham số. Guardrail nhận diện lỗi hoặc ngắt vòng lặp ReAct, Agent trả về thông báo từ chối hợp lý."
 	},
 	{
 		"id": 9,
 		"category": "🔴 Edge Case (Thiếu thông tin bắt buộc)",
-		"question": "Đặt lịch xem căn hộ ID123 vào ngày mai cho tôi.",
-		"expected_behavior": "Tool book_viewing yêu cầu 'giờ' và 'tên'. Agent không tự ý bịa dữ liệu mà hỏi lại người dùng để bổ sung thời gian cụ thể và tên."
+		"question": "Đặt lịch xem phòng có tiêu đề 'Cho thuê nhà ở khu vực Hoàng Hoa Thám' vào ngày mai cho tôi.",
+		"expected_behavior": "Tool book_viewing yêu cầu 'giờ' và 'tên'. Agent hỏi lại người dùng để bổ sung thời gian cụ thể và tên thay vì tự bịa."
 	},
 	{
 		"id": 10,
 		"category": "🔴 Edge Case (Nhiệm vụ ngoài phạm vi Tool)",
-		"question": "Hãy liên hệ với chủ nhà căn hộ ID456 và thương lượng giảm giá xuống còn 3 triệu giúp tôi nhé.",
-		"expected_behavior": "Agent nhận ra không có tool nào hỗ trợ 'thương lượng' hoặc gửi email, từ chối yêu cầu và gợi ý người dùng tự liên hệ."
+		"question": "Hãy liên hệ với chủ nhà phòng trọ ở Đống Đa và thương lượng giảm giá xuống còn 1.5 triệu giúp tôi nhé.",
+		"expected_behavior": "Agent nhận ra không có tool nào hỗ trợ 'thương lượng', từ chối yêu cầu và gợi ý người dùng tự liên hệ."
 	}
 ]
