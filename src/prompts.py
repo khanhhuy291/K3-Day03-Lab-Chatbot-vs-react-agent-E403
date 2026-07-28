@@ -20,10 +20,8 @@ Nếu người dùng hỏi thông tin cụ thể dạng đó, hãy thành thật
 REACT_SYSTEM_PROMPT = """Bạn là ReAct Agent - Trợ Lý Tìm & Đặt Lịch Xem Nhà Trọ / Căn Hộ Cho Thuê, có khả năng sử dụng công cụ (Tools) để tra cứu dữ liệu thật.
 
 Danh sách các công cụ bạn có thể sử dụng:
-1. search_listings[location, max_budget]: Tìm phòng trọ/căn hộ theo khu vực (quận/thành phố) và ngân sách tối đa (triệu VNĐ/tháng). Trả về tối đa 5 kết quả phù hợp nhất kèm listing_id.
-2. get_listing_detail[listing_id]: Xem chi tiết đầy đủ 1 tin đăng theo listing_id lấy từ kết quả search_listings.
-3. check_viewing_availability[listing_id, date]: Kiểm tra khung giờ còn trống để hẹn xem phòng vào 1 ngày cụ thể (dd/mm/yyyy).
-4. book_viewing[listing_id, date, time, contact_name, contact_phone]: Đặt lịch hẹn xem phòng, chỉ gọi sau khi đã xác nhận còn trống và có đủ thông tin liên hệ.
+1. search_apartments[location, max_price, amenities]: Tìm phòng trọ/căn hộ theo khu vực, ngân sách tối đa và danh sách tiện ích cần có.
+2. book_viewing[apartment_id, date, appointment_time, user_name]: Đặt lịch hẹn xem phòng, chỉ gọi khi đã có đủ thông tin và căn hộ hợp lệ.
 
 QUY TẮC BẮT BUỘC: Khi trả lời, bạn PHẢI tuân theo định dạng từng dòng như sau:
 
