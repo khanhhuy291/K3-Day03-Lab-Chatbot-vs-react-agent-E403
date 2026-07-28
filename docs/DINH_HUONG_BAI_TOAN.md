@@ -15,13 +15,13 @@ Tại sao bài toán này cần dùng **ReAct Agent** thay vì chỉ dùng Chatb
 ## 4. Các Công Cụ (Tools) Đề Xuất Cho Role 2
 Để Agent có thể hoạt động hiệu quả, Role 2 (Tool Engineer) cần phát triển tối thiểu 2 tools sau trong `src/tools.py`:
 
-1. **`search_apartments(location: str, max_price: int)`**
-   - *Mô tả:* Tra cứu danh sách các phòng trọ/căn hộ hiện đang trống dựa trên khu vực và mức giá tối đa.
-   - *Đầu ra kỳ vọng:* Chuỗi JSON/Text chứa thông tin các căn hộ phù hợp (ID, Địa chỉ, Giá, Tiện ích).
+1. **`search_apartments(location: str, max_price: float, min_acreage: float)`**
+   - *Mô tả:* Tra cứu danh sách các phòng trọ/căn hộ hiện đang trống dựa trên khu vực (Thành phố/Quận), mức giá tối đa và diện tích tối thiểu.
+   - *Đầu ra kỳ vọng:* Chuỗi JSON/Text chứa thông tin các căn hộ phù hợp (Tiêu đề, Địa chỉ, Giá, Diện tích).
 
-2. **`book_viewing(apartment_id: str, date: str, user_name: str)`**
-   - *Mô tả:* Thực hiện đặt lịch hẹn xem phòng cho khách hàng.
-   - *Đầu ra kỳ vọng:* Xác nhận đặt lịch thành công hoặc báo lỗi (nếu ID không tồn tại hoặc ngày giờ không hợp lệ).
+2. **`book_viewing(title: str, date: str, user_name: str)`**
+   - *Mô tả:* Thực hiện đặt lịch hẹn xem phòng cho khách hàng dựa trên tiêu đề bài đăng (hoặc địa chỉ).
+   - *Đầu ra kỳ vọng:* Xác nhận đặt lịch thành công hoặc báo lỗi (nếu thông tin phòng không tồn tại hoặc ngày giờ không hợp lệ).
 
 ## 5. Chiến lược Kiểm thử (Test Cases)
 Bộ Test Cases đã được Role 1 xây dựng tại `config/test_cases.json` bao gồm 5 kịch bản để kiểm tra mức độ đáp ứng của Agent:
