@@ -1,0 +1,39 @@
+flowchart TD
+    A([User Question])
+
+    A --> B{Question Router}
+
+    %% -------------------------
+    %% Chatbot Path
+    %% -------------------------
+    B -->|Simple Question| C[Chatbot Baseline]
+
+    C --> D[LLM Provider]
+    D --> E[Generate Response]
+    E --> F([Return Answer])
+
+    %% -------------------------
+    %% ReAct Path
+    %% -------------------------
+    B -->|Complex Question| G[ReAct Agent]
+
+    G --> H[LLM Reasoning]
+
+    H --> I{Need Tool?}
+
+    I -->|Search Homes| J[search_homes()]
+    I -->|Weather| K[get_weather()]
+    I -->|Save Result| L[save_home()]
+
+    J --> M[Observation]
+    K --> M
+    L --> M
+
+    M --> N[Update Context]
+
+    N --> O{Final Answer?}
+
+    O -->|No| H
+    O -->|Yes| P[LLM Final Response]
+
+    P --> F
