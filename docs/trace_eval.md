@@ -70,3 +70,87 @@ ReAct Agent không chỉ tìm kiếm dữ liệu theo yêu cầu mà còn:
 - Gọi nhiều công cụ khác nhau (tìm kiếm, kiểm tra lịch, đặt lịch).
 - Tự động xử lý các bước trung gian.
 - Hoàn thành toàn bộ quy trình mà người dùng không cần thao tác thêm.
+
+---
+
+# 🧪 3. KẾT QUẢ CHẠY THỬ THỰC TẾ TRÊN REPO
+
+**Ngày chạy thử**: `2026-07-28`  
+**Lệnh chạy**: `.venv/bin/python src/app.py`  
+**LLM Provider thực tế**: `MockProvider (Offline Mock Mode)`
+
+## Baseline Chatbot
+
+**Câu test đã chạy**: *"Tìm giúp tôi một phòng trọ ở Đống Đa, Hà Nội với ngân sách dưới 2.5 triệu đồng."*
+
+**Output thực tế**:
+
+```text
+🤖 [Mock Provider]: Phản hồi giả lập offline cho bài test.
+```
+
+**Đánh giá observability**:
+- Luồng baseline đã chạy thành công, không lỗi runtime sau khi cài dependencies.
+- Kết quả hiện tại chưa phản ánh năng lực thật của mô hình vì đang dùng `MockProvider`.
+- Baseline chưa đưa ra dữ liệu thuê trọ cụ thể, nên hiện chỉ dùng để kiểm tra wiring và entrypoint.
+- Muốn đánh giá chất lượng thật giữa Chatbot và ReAct Agent, cần cấu hình provider/API key thực thay cho chế độ mock.
+
+---
+
+# 🔁 4. MỐC 3 - REACT LOOP & SAFEGUARDS
+
+**Ngày chạy trace**: `2026-07-28`  
+**Lệnh chạy**: `.venv/bin/python src/app.py`  
+**Mục tiêu Role 5**: Trích xuất chuỗi `Thought -> Action -> Observation` từ vòng lặp ReAct hiện tại.
+
+## Câu hỏi test thực tế
+
+*"Tìm giúp tôi một phòng trọ ở Đống Đa, Hà Nội với ngân sách dưới 2.5 triệu đồng."*
+
+## Trace Log đã trích xuất
+
+### Step 1
+
+- **Thought**: `Câu hỏi này cần tra cứu phòng phù hợp theo khu vực và ngân sách.`
+- **Action**: `search_apartments['Cầu Giấy', 4000000]`
+- **Observation**:
+
+```json
+{
+  "location": "Cầu Giấy",
+  "max_price_million_vnd": 4.0,
+  "required_amenities": [],
+  "count": 2,
+  "listings": [
+    {
+      "id": "APT-001",
+      "title": "Phòng studio máy lạnh, cửa sổ, gần Trung Kính",
+      "price": 3.7,
+      "published": "2026-07-24",
+      "acreage": 20,
+      "address": "Khu Trung Kính, Cầu Giấy, Hà Nội"
+    },
+    {
+      "id": "APT-002",
+      "title": "Phòng khép kín máy lạnh, ban công, thang máy",
+      "price": 3.9,
+      "published": "2026-07-25",
+      "acreage": 22,
+      "address": "Khu Yên Hòa, Cầu Giấy, Hà Nội"
+    }
+  ],
+  "notice": "Dữ liệu demo; hãy xác minh tình trạng thực tế trước khi đặt cọc."
+}
+```
+
+### Final Answer
+
+`Tôi tìm thấy 2 căn phù hợp với điều kiện hiện tại.`
+
+## Đánh giá Guardrails & Trace Quality
+
+- Agent đã chạy qua đúng khung `Thought -> Action -> Observation -> Final Answer`.
+- Vòng lặp dừng sớm ở bước 1, không vượt `MAX_ITERATIONS`, nên guardrail giới hạn vòng lặp đang hoạt động.
+- Không có lỗi runtime khi gọi tool; tool trả về JSON hợp lệ để quan sát.
+- Tuy nhiên, trace cho thấy agent **chưa bám đúng input người dùng**: câu hỏi là `Đống Đa` và `dưới 2.5 triệu`, nhưng action thực tế lại gọi `Cầu Giấy` và `4 triệu`.
+- Đây là lỗi logic/orchestration ở `src/app.py`, không phải lỗi observability. Role 4 cần sửa phần mapping từ user query sang đối số tool trước khi nghiệm thu Mốc 3.
