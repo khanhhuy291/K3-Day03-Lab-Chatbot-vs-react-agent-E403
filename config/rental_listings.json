@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Phòng studio máy lạnh, cửa sổ, gần Trung Kính",
+    "price": 3.7,
+    "published": "2026-07-24",
+    "acreage": 20,
+    "address": "Khu Trung Kính, Cầu Giấy, Hà Nội"
+  },
+  {
+    "title": "Phòng khép kín máy lạnh, ban công, thang máy",
+    "price": 3.9,
+    "published": "2026-07-25",
+    "acreage": 22,
+    "address": "Khu Yên Hòa, Cầu Giấy, Hà Nội"
+  },
+  {
+    "title": "Chung cư mini máy lạnh, ban công, thang máy",
+    "price": 5.6,
+    "published": "2026-07-26",
+    "acreage": 30,
+    "address": "Khu Linh Trung, Thành phố Thủ Đức, TP.HCM"
+  },
+  {
+    "title": "Căn hộ 1 phòng ngủ máy lạnh, ban công, bảo vệ",
+    "price": 6.2,
+    "published": "2026-07-20",
+    "acreage": 36,
+    "address": "Khu An Phú, Thành phố Thủ Đức, TP.HCM"
+  },
+  {
+    "title": "Căn hộ dịch vụ nội thất, máy lạnh, lễ tân",
+    "price": 9.0,
+    "published": "2026-07-27",
+    "acreage": 40,
+    "address": "Khu Tân Định, Quận 1, TP.HCM"
+  },
+  {
+    "title": "Phòng có gác, máy lạnh, gần Hàng Xanh",
+    "price": 4.5,
+    "published": "2026-07-23",
+    "acreage": 22,
+    "address": "Khu Hàng Xanh, Bình Thạnh, TP.HCM"
+  },
+  {
+    "title": "Phòng khép kín máy lạnh, cửa sổ, chỗ để xe",
+    "price": 3.8,
+    "published": "2026-07-22",
+    "acreage": 20,
+    "address": "Khu Phan Văn Trị, Gò Vấp, TP.HCM"
+  },
+  {
+    "title": "Studio máy lạnh, ban công, thang máy, nội thất",
+    "price": 4.2,
+    "published": "2026-07-27",
+    "acreage": 25,
+    "address": "Khu Nguyễn Oanh, Gò Vấp, TP.HCM"
+  }
+]
